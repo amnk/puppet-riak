@@ -1,4 +1,7 @@
-class riak {
+class riak 
+            
+
+{
 
   $version = '1.1.4-1'
   $destination = '/usr/src'

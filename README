@@ -1,0 +1,5 @@
+Basho Riak - an OpenSource NoSQL key/value storage. 
+
+This Puppet module provides automates its installation, configuration and management.
+
+ATTN! Currently it can only install Riak.
