@@ -2,15 +2,20 @@ class riak {
 
   $version = '1.1.4-1'
   $destination = '/usr/src'
-  $package_filename = $::operatingsystem ? {
-    /(Debian|Ubuntu)/ => "riak_${::version}_${::architecture}.deb",
-    redhat            => "riak_${::version}.el6.${::architecture}.rpm",
+
+  case $::operatingsystem {
+    'ubuntu', 'debian': {
+                          $package_filename = "riak_${::version}_${::architecture}.deb"
+                          $riak_provider    = 'dpkg'
+                        }
+    'centos':           {
+                          $package_filename = "riak_${::version}.el6.${::architecture}.rpm"
+                          $riak_provider    = 'rpm'
+                        }
+    default:            { fail("WARNING: Unsupported operating system") }
+
   }
 
-  $riak_provider = $::operatingsystem ? {
-    /(Debian|Ubuntu)/ => 'dpkg',
-    redhat            => 'rpm',
-  }
   $riak_inst_path = "${destination}/${package_filename}"
 
   file {$destination:
