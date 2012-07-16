@@ -1,6 +1,4 @@
-class riak::node  {
-
-  include riak
+class riak::node inherits riak {
 
   $riak_conf_file = '/etc/riak/app.config'
   $erl_conf_file  = '/etc/riak/vm.args'
@@ -8,14 +6,16 @@ class riak::node  {
   file {$riak_conf_file:
     ensure  => file,
     require => Package['riak'],
-    source  => template('riak/app.config.erb'),
-    notify  => Service['riak'],
+    content => template('riak/app.config.erb'),
   }
 
   file {$erl_conf_file:
     ensure  => file,
     require => Package['riak'],
-    source  => template('riak/vm.args.erb'),
-    notify  => Service['riak'],
+    content => template('riak/vm.args.erb'),
+  }
+
+  Service['riak'] {
+    subscribe => File[$erl_conf_file, $riak_conf_file],
   }
 }
