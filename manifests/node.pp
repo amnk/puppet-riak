@@ -1,4 +1,6 @@
-class riak::node inherits riak {
+class riak::node  {
+
+  include riak
 
   $riak_conf_file = '/etc/riak/app.config'
   $erl_conf_file  = '/etc/riak/vm.args'
@@ -15,4 +17,5 @@ class riak::node inherits riak {
     require => Package['riak'],
     source  => template('riak/vm.args.erb'),
     notify  => Service['riak'],
+  }
 }
