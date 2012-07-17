@@ -1,40 +1,19 @@
-class riak 
-            
+class riak inherits riak::vars {
 
-{
-
-  $version = '1.1.4-1'
-  $destination = '/usr/src'
-
-  case $::operatingsystem {
-    'ubuntu', 'debian': {
-                          $package_filename = "riak_${::version}_${::architecture}.deb"
-                          $riak_provider    = 'dpkg'
-                        }
-    'centos':           {
-                          $package_filename = "riak_${::version}.el6.${::architecture}.rpm"
-                          $riak_provider    = 'rpm'
-                        }
-    default:            { fail("WARNING: Unsupported operating system") }
-
-  }
-
-  $riak_inst_path = "${destination}/${package_filename}"
-
-  file {$destination:
+  file {$riak::vars::destination:
     ensure => present,
   }
 
-  file {$riak_inst_path:
+  file {$riak::vars::riak_inst_path:
     ensure => present,
-    source => "puppet:///modules/riak/${::package_filename}"
+    source => "puppet:///modules/riak/${riak::vars::package_filename}"
   }
 
   package { 'riak':
     ensure   => installed,
-    source   => $riak_inst_path,
-    require  => File[$riak_inst_path],
-    provider => $riak_provider,
+    source   => $riak::vars::riak_inst_path,
+    require  => File[$riak::vars::riak_inst_path],
+    provider => $riak::vars::riak_provider,
   }
 
   service { 'riak':
