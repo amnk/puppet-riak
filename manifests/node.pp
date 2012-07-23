@@ -1,5 +1,5 @@
 class riak::node(
-  $node_name = "inode1@${ipaddress}",
+  $node_name = "${hostname}@${ipaddress}",
   $join_cluster = 'false',
   $join_cluster_node = 'UNSET',
 ) inherits riak {
