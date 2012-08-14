@@ -37,7 +37,7 @@ class riak (
       require => Service["riak"]
     }
   }
-}
+
   package { 'riak':
     ensure   => installed,
   }
